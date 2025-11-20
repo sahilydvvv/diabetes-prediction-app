@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Diabetes Prediction - Glass UI</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: 
+        linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.3)),
+        url("https://plus.unsplash.com/premium_photo-1701520447625-2150c42fa402?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+        no-repeat center center/cover;
+}
+
+
+        .background-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+
+        .glass-card {
+            width: 420px;
+            padding: 35px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            text-align: center;
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .glass-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            color: white;
+            font-size: 15px;
+            outline: none;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            transition: 0.3s;
+        }
+
+        .glass-input::placeholder {
+            color: #e2e2e2;
+        }
+
+        .glass-input:focus {
+            background: rgba(255,255,255,0.4);
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .btn-glass {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #6a95ff, #3e60c8);
+            font-size: 17px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-glass:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 5px 20px rgba(80, 120, 255, 0.5);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 12px;
+            text-align: center;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            display: none;
+        }
+
+        .positive {
+            background: rgba(255, 80, 80, 0.3);
+            border: 1px solid rgba(255, 80, 80, 0.4);
+            color: #ffdede;
+        }
+
+        .negative {
+            background: rgba(80, 255, 150, 0.3);
+            border: 1px solid rgba(80, 255, 150, 0.4);
+            color: #e4ffe6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="background-blur"></div>
+
+    <div class="glass-card">
+        <h2>Diabetes Prediction</h2>
+
+        <form action="/predict" method="post">
+            <input class="glass-input" type="number" name="Pregnancies" placeholder="Pregnancies" required>
+            <input class="glass-input" type="number" name="Glucose" placeholder="Glucose" required>
+            <input class="glass-input" type="number" name="BloodPressure" placeholder="Blood Pressure" required>
+            <input class="glass-input" type="number" name="SkinThickness" placeholder="Skin Thickness" required>
+            <input class="glass-input" type="number" name="Insulin" placeholder="Insulin" required>
+            <input class="glass-input" type="number" name="BMI" placeholder="BMI" required>
+            <input class="glass-input" type="number" name="DiabetesPedigreeFunction" placeholder="Diabetes Pedigree Function" required>
+            <input class="glass-input" type="number" name="Age" placeholder="Age" required>
+
+            <button class="btn-glass" type="submit">Predict</button>
+        </form>
+
+        <div id="resultBox" class="result"></div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        if (params.has("result")) {
+            const r = params.get("result");
+            const box = document.getElementById("resultBox");
+
+            if (r === "Diabetic") {
+                box.classList.add("positive");
+                box.innerHTML = "Prediction: Diabetic 😟";
+            } else {
+                box.classList.add("negative");
+                box.innerHTML = "Prediction: Not Diabetic 😊";
+            }
+
+            box.style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
